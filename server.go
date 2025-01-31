@@ -2,8 +2,11 @@ package main
 
 import (
 	"context"
+	"log"
+	"net"
 
 	pb "github.com/rohitladhar/gogRPC/coffeeshop_proto"
+	"google.golang.org/grpc"
 )
 
 type server struct {
@@ -26,7 +29,7 @@ func (s *server) GetMenu(menuRequest *pb.MenuRequest, srv pb.CoffeeShop_GetMenuS
 		},
 	}
 
-	for i, _ := range items {
+	for i := range items {
 		srv.Send(&pb.Menu{
 			Items: items[0: i+1],
 		})
@@ -43,4 +46,17 @@ func (s *server) GetOrderStatus(context context.Context,receipt *pb.Receipt) (*p
 		OrderId: receipt.Id,
 		Status: "In Progress",
 	},nil
+}
+
+func main(){
+	lis, err := net.Listen("tcp",":9001")
+	if err != nil {
+		log.Fatalf("Failed to listen: %v", lis)
+	}
+
+	grpcServer := grpc.NewServer();
+	pb.RegisterCoffeeShopServer(grpcServer, &server{})
+	if err := grpcServer.Serve(lis); err != nil{
+		log.Fatalf("Faied to serve %s", err)
+	}
 }
