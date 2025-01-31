@@ -15,15 +15,15 @@ type server struct {
 
 func (s *server) GetMenu(menuRequest *pb.MenuRequest, srv pb.CoffeeShop_GetMenuServer) error {
 	items := []*pb.Item {
-		&pb.Item{
+		{
 			Id:   "1",
 			Name: "Black Coffee",
 		},
-		&pb.Item{
+		{
 			Id:"2",
 			Name:"Americano",
 		},
-		&pb.Item{
+		{
 			Id:"3",
 			Name:"Vanilla Latte",
 		},
