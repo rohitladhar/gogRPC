@@ -13,3 +13,8 @@ start_auth:
 
 start_inventory:
 	cd ../inventoryService && docker run -t --rm --name inventory-service -p 8082:8082 inventory-app
+
+start:
+	docker compose up
+stop:
+	docker compose down
