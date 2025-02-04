@@ -1,0 +1,32 @@
+services:
+  broker-service:
+    build:
+      context: ../brokerService
+      dockerfile: ../brokerService/Dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
+    deploy:
+      mode: replicated
+      replicas: 1
+  broker-auth:
+    build:
+      context: ../authenticationService
+      dockerfile: ../authenticationService/Dockerfile
+    restart: always
+    ports:
+      - "8081:8081"
+    deploy:
+      mode: replicated
+      replicas: 1
+
+  broker-inventory:
+    build:
+      context: ../inventoryService
+      dockerfile: ../inventoryService/Dockerfile
+    restart: always
+    ports:
+      - "8082:8082"
+    deploy:
+      mode: replicated
+      replicas: 1
